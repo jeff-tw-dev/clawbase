@@ -1,26 +1,22 @@
-# Tasks - Phase 1: Clawbase MVP Dashboard
+# Tasks-phase1.md - Phase 1: MVP - Listing & Status
 
-**Repo:** clawbase/ (workspace-marco). All work here. Prefix commits/PRs [Gemini-Phase1] or [Claude-Phase1].
+## Project Infrastructure (Claude Code)
+- [x] Initialize project with Vite (React 19, TypeScript).
+- [x] Configure pnpm and install dependencies.
+- [x] Set up Tailwind CSS and Shadcn UI.
+- [x] Create a responsive layout (Sidebar + Main Content Area).
 
-**Loop:** Plan (PR desc) → Implement → Test (pnpm dev) → Review (mutual PR comments/merge) → Lessons (commit notes).
+## Agent & Session Logic (Gemini)
+- [ ] Implement agent discovery: read and parse `openclaw.json` (located in `~/.openclaw/openclaw.json`).
+- [ ] Create an API service to fetch agent status and active sessions.
+- [ ] Dashboard Component: Map discovered agents to a list/grid view with status indicators.
+- [ ] Session View Component: Table view for active sessions with basic metadata.
 
-## Gemini-Pro Tasks (Setup/UI)
-1. **Setup:** pnpm deps (vite/react/ts/shadcn/tailwind/zustand/@tanstack/react-query/lucide-react/clsx/cva/tailwind-merge). npx shadcn@latest init/add button/card/dialog/input/label/table/tabs/toast.
-   - vite.config.ts, tsconfig.json, index.html, src/main.tsx, src/App.tsx (layout: header, dashboard).
+## Review & Integration (Orchestrated by Luca)
+- [ ] Gemini to review Claude's project setup PR.
+- [ ] Claude to review Gemini's discovery logic PR.
+- [ ] Optimize UI based on session data structures.
+- [ ] Generate `Lesson-phase1.md` and `Report-phase1.md`.
 
-2. **State/API:** src/stores/useSessionsStore.ts (Zustand). src/lib/api.ts (typed fetch for sessions_list/spawn/status/history/subagents/process). src/hooks/useSessions.ts (TanStack Query poll).
-
-3. **UI:** src/components/SessionCard.tsx, SessionList.tsx, SpawnModal.tsx.
-
-**Branch:** gemini-phase1. gh pr create --head gemini-phase1. Notify: "Gemini PR ready: <link>".
-
-## Claude-Opus Tasks (Integration/Review)
-1. **Hooks/UI:** src/hooks/useSessionDetails.ts, useLogs.ts, useSubagents.ts. src/components/LogsViewer.tsx, SubagentControls.tsx.
-
-2. **Integration:** App.tsx full (search/filter, real-time). Connect API (localhost OpenClaw).
-
-3. **Review:** gh pr list/view Gemini PRs, comment/merge. Optimize/perf.
-
-**Branch:** claude-phase1. gh pr create. Notify: "Claude PR ready: <link>". Final merge → "PHASE 1 COMPLETE".
-
-**Done Criteria:** pnpm dev live (list/spawn/logs work), PRs merged, README setup.
+---
+*Created: 2026-02-28*

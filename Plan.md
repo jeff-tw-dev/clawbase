@@ -1,66 +1,46 @@
-# Clawbase - OpenClaw Agents Management Dashboard (Phase 1)
+# PLAN.md - Clawbase: Agents Management for OpenClaw
 
-## Project Overview
-Clawbase is a React/PNPM web dashboard for managing OpenClaw agents/sessions/subagents. Features: list sessions, spawn/kill/steer, logs viewer, real-time status. Direct integration with OpenClaw tools (sessions_list/spawn/subagents/process/session_status).
+## Requirement Analysis
+Build a web-based dashboard (Clawbase) for managing OpenClaw agents, including discovery, configuration, monitoring, and lifecycle control.
 
-## Requirements Analysis (Phase 1 MVP)
-### Functional
-- List sessions (sessions_list with filters/limit/activeMinutes).
-- View session details/history/status (sessions_history, session_status).
-- Spawn subagent/ACPs (sessions_spawn runtime=subagent/acp).
-- Manage subagents (subagents list/kill/steer).
-- Tail logs (process log/poll).
-- Search/filter sessions.
-
-### UI/UX
-- Dashboard: Session cards (status, model, runtime, last msg, controls).
-- Spawn modal: task, runtime (subagent/acp), agentId, model, cwd, thread/mode.
-- Logs viewer: syntax-highlighted, auto-scroll, real-time poll.
-- Responsive, dark mode, loading/error states.
-
-### Non-Functional
-- Fast HMR (Vite).
-- Type-safe (TS).
-- Modern UI (shadcn/Tailwind).
-- State: Zustand.
-- Data fetching: TanStack Query (polling/optimistic).
+### Core Features
+- **Agent Discovery & Listing**: View all configured agents in the current OpenClaw instance.
+- **Agent Configuration**: Edit agent profiles (ID, workspace, model, credentials, auth profiles).
+- **Session Monitoring**: View active sessions, logs, and live status for each agent.
+- **Agent Lifecycle**: Start, stop, and restart agent processes or reload configurations.
+- **Direct Integration**: Seamlessly connect to OpenClaw's internal APIs and workspace directories.
 
 ## Technical Decisions
-**Stack:**
-| Layer | Tech |
-|-------|------|
-| Build | PNPM + Vite + React 18 + TS |
-| UI | shadcn/ui + Tailwind CSS + Lucide React |
-| State | Zustand |
-| Queries | TanStack Query v5 |
-| Utils | clsx, cva, tailwind-merge |
+- **Framework**: React 19 (via Vite)
+- **Styling**: Tailwind CSS + Shadcn UI (for rapid development and consistency)
+- **State Management**: React Query (TanStack Query) for robust API synchronization and caching.
+- **Package Manager**: pnpm (for efficiency and speed)
+- **Build Tool**: Vite (modern, fast development experience)
+- **API Strategy**: Direct interaction with the OpenClaw Gateway API and potential file-system operations (via a small backend wrapper if needed, though for now, focusing on React-based UI).
 
-**No backend:** Direct fetch to OpenClaw gateway API (localhost assumed).
+## Roadmap
 
-**API Wrappers:** lib/api.ts with typed functions for each tool (e.g. fetchSessionsList(filters)).
+### Phase 1: MVP - Listing & Status
+- Initialize project structure with Vite and pnpm.
+- Set up Shadcn UI and basic layout.
+- Implement agent discovery (reading `openclaw.json` or calling the management API).
+- Dashboard: List all agents with their current status (active/inactive).
+- Session View: List active sessions with basic metadata.
 
-**Folder Structure:**
-```
-clawbase/
-├── src/
-│   ├── components/ui/     # shadcn (button, card, dialog, table...)
-│   ├── components/        # SessionCard, SpawnModal, LogsViewer, Dashboard
-│   ├── hooks/             # useSessions, useSpawnSession, useLogs
-│   ├── lib/               # api.ts, utils.ts
-│   ├── stores/            # useSessionsStore.ts
-│   └── App.tsx
-├── public/
-├── vite.config.ts
-├── tailwind.config.js
-└── tsconfig.json
-```
+### Phase 2: Configuration Management
+- UI for editing `AGENTS.md`, `SOUL.md`, and `USER.md` per agent.
+- Management of `auth-profiles.json` and provider keys.
+- Configuration validation (ensure IDs and workspaces are unique and valid).
 
-## Development Phases
-### Phase 1: MVP Dashboard
-- Setup + deps + shadcn.
-- State/API layer.
-- Core UI + integration.
-- Test/demo: pnpm dev → live session list/spawn/logs.
+### Phase 3: Lifecycle & Control
+- Start/stop/restart controls for the Gateway and individual agents.
+- Real-time reloading of configurations via OpenClaw signals.
+- Task monitoring: View queued or running agent tasks.
 
-### Phase 2: Orchestration UI, cron, memory.
-Approve → Tasks-phase1.md + agent dispatch (Gemini-Pro setup/UI, Claude-Opus integration/review).
+### Phase 4: Monitoring & Logs
+- Live log streaming for each agent.
+- Log analysis and filtering (using `jq`-like capabilities).
+- Resource usage monitoring (CPU, memory, token consumption).
+
+---
+*Created: 2026-02-28*
