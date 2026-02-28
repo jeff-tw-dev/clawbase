@@ -13,12 +13,17 @@ import {
 import { LayoutDashboard, MonitorDot, Settings } from "lucide-react"
 
 const navItems = [
-  { title: "Dashboard", icon: LayoutDashboard, active: true },
-  { title: "Sessions", icon: MonitorDot, active: false },
-  { title: "Settings", icon: Settings, active: false },
+  { title: "Dashboard", id: "dashboard", icon: LayoutDashboard },
+  { title: "Sessions", id: "sessions", icon: MonitorDot },
+  { title: "Settings", id: "settings", icon: Settings },
 ]
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  currentTab: string;
+  onTabChange: (tab: string) => void;
+}
+
+export function AppSidebar({ currentTab, onTabChange }: AppSidebarProps) {
   return (
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
@@ -31,8 +36,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton isActive={item.active}>
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton 
+                    isActive={currentTab === item.id}
+                    onClick={() => onTabChange(item.id)}
+                  >
                     <item.icon />
                     <span>{item.title}</span>
                   </SidebarMenuButton>

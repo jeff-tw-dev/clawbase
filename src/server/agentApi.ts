@@ -34,6 +34,7 @@ export async function discoverAgents(): Promise<Agent[]> {
   const agentsList = config?.agents?.list || [];
   
   // Map to add status
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return agentsList.map((agent: any) => ({
     ...agent,
     // Mock status for now, since we only read from config
